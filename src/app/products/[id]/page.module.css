@@ -324,3 +324,116 @@
   .actions { flex-direction: column; }
   .dealBtn { flex: none; width: 100%; }
 }
+
+/* Prediction Section */
+.predictionSection {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  margin-top: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  border-left: 4px solid var(--primary-500);
+}
+
+.predictionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.predictionTitle {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.predictionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.predictionResult {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.trendBadge {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trendHAUSSE {
+  background: #def7ec;
+  color: #03543f;
+}
+
+.trendBAISSE {
+  background: #fdf2f2;
+  color: #9b1c1c;
+}
+
+.trendSTABLE {
+  background: #e1effe;
+  color: #1e429f;
+}
+
+.predictionDetails {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.probGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+.probItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.probLabel {
+  font-size: 0.7rem;
+  color: var(--text-light);
+}
+
+.probValue {
+  font-weight: 600;
+}
+
+.spinner {
+  animation: rotate 1s linear infinite;
+  color: var(--primary-500);
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.predictionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+}

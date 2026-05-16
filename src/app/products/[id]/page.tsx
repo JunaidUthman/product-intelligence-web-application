@@ -23,6 +23,28 @@ export default function ProductDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [imgError, setImgError] = useState(false);
+  const [prediction, setPrediction] = useState<any>(null);
+  const [predicting, setPredicting] = useState(false);
+  const [predictError, setPredictError] = useState<string | null>(null);
+
+  const handlePredict = async () => {
+    try {
+      setPredicting(true);
+      setPredictError(null);
+      const res = await fetch(`/api/predict/${params.id}`);
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Prediction failed');
+      }
+      const data = await res.json();
+      setPrediction(data);
+    } catch (e: any) {
+      setPredictError(e.message);
+      console.error(e);
+    } finally {
+      setPredicting(false);
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -222,6 +244,84 @@ export default function ProductDetailPage() {
                 </svg>
                 Back
               </button>
+            </div>
+
+            {/* Price Prediction Section */}
+            <div className={styles.predictionSection}>
+              <div className={styles.predictionHeader}>
+                <div className={styles.predictionTitle}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" />
+                  </svg>
+                  AI Price Evolution Forecast
+                </div>
+                {predicting && (
+                  <svg className={styles.spinner} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12a9 9 0 11-6.219-8.56" />
+                  </svg>
+                )}
+              </div>
+
+              {!prediction ? (
+                <div className={styles.predictionContent}>
+                  <p className={styles.description} style={{ fontSize: '0.8125rem' }}>
+                    Curious about where the price is heading? Use our AI model to predict the next 7-day trend based on historical data.
+                  </p>
+                  <button
+                    onClick={handlePredict}
+                    disabled={predicting}
+                    className={`btn btn-secondary ${styles.predictionBtn}`}
+                  >
+                    {predicting ? 'Analyzing Trends...' : 'Check Price Evolution'}
+                  </button>
+                  {predictError && (
+                    <p style={{ color: 'var(--error)', fontSize: '0.75rem', marginTop: 'var(--space-2)' }}>
+                      {predictError}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className={styles.predictionContent}>
+                  <div className={styles.predictionResult}>
+                    <span className={`${styles.trendBadge} ${styles['trend' + prediction.trend_label]}`}>
+                      {prediction.trend_label === 'HAUSSE' && '📈 Increasing'}
+                      {prediction.trend_label === 'BAISSE' && '📉 Decreasing'}
+                      {prediction.trend_label === 'STABLE' && '↔️ Stable'}
+                    </span>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 600 }}>
+                      Prediction for the next 7 days
+                    </span>
+                  </div>
+                  
+                  <div className={styles.predictionDetails}>
+                    <p>Model confidence for each scenario:</p>
+                    <div className={styles.probGrid}>
+                      <div className={styles.probItem}>
+                        <span className={styles.probLabel}>Decreasing</span>
+                        <span className={styles.probValue}>{(prediction.probabilities[0] * 100).toFixed(1)}%</span>
+                      </div>
+                      <div className={styles.probItem}>
+                        <span className={styles.probLabel}>Stable</span>
+                        <span className={styles.probValue}>{(prediction.probabilities[1] * 100).toFixed(1)}%</span>
+                      </div>
+                      <div className={styles.probItem}>
+                        <span className={styles.probLabel}>Increasing</span>
+                        <span className={styles.probValue}>{(prediction.probabilities[2] * 100).toFixed(1)}%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handlePredict}
+                    disabled={predicting}
+                    className="btn btn-ghost btn-sm"
+                    style={{ marginTop: 'var(--space-2)', alignSelf: 'flex-start' }}
+                  >
+                    Refresh Analysis
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

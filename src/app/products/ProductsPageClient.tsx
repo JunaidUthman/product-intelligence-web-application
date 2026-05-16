@@ -63,12 +63,15 @@ export default function ProductsPageClient() {
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<SortOption>('score');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const categoryParam = (searchParams.get('category') || 'all') as Category;
   const [activeCategory, setActiveCategory] = useState<Category>(categoryParam);
 
   useEffect(() => {
     setActiveCategory(categoryParam);
+    setCurrentPage(1); // Reset to first page when category changes
   }, [categoryParam]);
 
   useEffect(() => {
@@ -105,6 +108,12 @@ export default function ProductsPageClient() {
       return matchesCat && matchesSearch;
     }),
     sort
+  );
+
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const paginatedProducts = filtered.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const catCounts = {
@@ -155,12 +164,15 @@ export default function ProductsPageClient() {
                 type="text"
                 placeholder="Search products or shops..."
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setCurrentPage(1); // Reset to first page on search
+                }}
                 className={`input ${styles.searchInput}`}
                 id="product-search"
               />
               {search && (
-                <button className={styles.searchClear} onClick={() => setSearch('')} aria-label="Clear search">
+                <button className={styles.searchClear} onClick={() => { setSearch(''); setCurrentPage(1); }} aria-label="Clear search">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
@@ -170,7 +182,10 @@ export default function ProductsPageClient() {
             <select
               className={`input ${styles.sortSelect}`}
               value={sort}
-              onChange={(e) => setSort(e.target.value as SortOption)}
+              onChange={(e) => {
+                setSort(e.target.value as SortOption);
+                setCurrentPage(1); // Reset to first page on sort
+              }}
               aria-label="Sort products"
             >
               {SORT_OPTIONS.map((opt) => (
@@ -185,9 +200,10 @@ export default function ProductsPageClient() {
             <span className={styles.resultsCount}>
               {filtered.length === 0 ? 'No results' : `${filtered.length} product${filtered.length !== 1 ? 's' : ''} found`}
               {search && ` for "${search}"`}
+              {totalPages > 1 && ` (Showing page ${currentPage} of ${totalPages})`}
             </span>
             {(search || activeCategory !== 'all') && (
-              <button className={styles.clearFilters} onClick={() => { setSearch(''); handleCategoryChange('all'); }}>
+              <button className={styles.clearFilters} onClick={() => { setSearch(''); handleCategoryChange('all'); setCurrentPage(1); }}>
                 Clear filters
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -221,14 +237,70 @@ export default function ProductsPageClient() {
             </div>
             <h3>No products found</h3>
             <p>Try adjusting your filters or search term.</p>
-            <button className="btn btn-primary" onClick={() => { setSearch(''); handleCategoryChange('all'); }}>Clear Filters</button>
+            <button className="btn btn-primary" onClick={() => { setSearch(''); handleCategoryChange('all'); setCurrentPage(1); }}>Clear Filters</button>
           </div>
         ) : (
-          <div className={styles.productsGrid}>
-            {filtered.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+          <>
+            <div className={styles.productsGrid}>
+              {paginatedProducts.map((product, i) => (
+                <ProductCard key={product.id} product={product} index={i} />
+              ))}
+            </div>
+
+            {totalPages > 1 && (
+              <div className={styles.pagination}>
+                <button
+                  className={`${styles.paginationBtn} ${currentPage === 1 ? styles.paginationBtnDisabled : ''}`}
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  aria-label="Previous page"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="15 18 9 12 15 6" />
+                  </svg>
+                </button>
+                
+                <div className={styles.paginationNumbers}>
+                  {Array.from({ length: totalPages }).map((_, i) => {
+                    const pageNum = i + 1;
+                    // Show only first, last, and pages around current
+                    if (
+                      pageNum === 1 ||
+                      pageNum === totalPages ||
+                      (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                    ) {
+                      return (
+                        <button
+                          key={pageNum}
+                          className={`${styles.paginationNum} ${currentPage === pageNum ? styles.paginationNumActive : ''}`}
+                          onClick={() => setCurrentPage(pageNum)}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    } else if (
+                      (pageNum === 2 && currentPage > 3) ||
+                      (pageNum === totalPages - 1 && currentPage < totalPages - 2)
+                    ) {
+                      return <span key={pageNum} className={styles.paginationEllipsis}>...</span>;
+                    }
+                    return null;
+                  })}
+                </div>
+
+                <button
+                  className={`${styles.paginationBtn} ${currentPage === totalPages ? styles.paginationBtnDisabled : ''}`}
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  aria-label="Next page"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
