@@ -15,11 +15,12 @@ export const maxDuration = 30;
 // Pre-defined parameter schemas for each known tool
 const toolSchemas: Record<string, z.ZodObject<any>> = {
   search_products: z.object({
-    query: z.string().optional().describe('Search term for product name or description'),
-    category: z.string().optional().describe('Product category'),
+    query: z.string().optional().describe('Search term for product NAME only — do NOT pass category names here'),
+    category: z.string().optional().describe('Product category. Use: "phones", "pcs" (also covers laptops/computers/notebooks), "chargers"'),
     max_price: z.number().optional().describe('Maximum price in USD'),
     min_rating: z.number().optional().describe('Minimum star rating'),
     store: z.string().optional().describe('Filter by store name'),
+    limit: z.number().optional().describe('How many results to return. Default is 10. Set to 50 or 100 to get all results.'),
   }),
   get_product_by_id: z.object({
     product_id: z.number().describe('The unique database ID of the product'),
@@ -84,10 +85,18 @@ export async function POST(req: Request) {
       system: `You are a concise shopping assistant for "Browse Electronics".
 You have access to product database tools. When the user asks to find or show products, use the search_products tool.
 
-CRITICAL RULES — follow these exactly:
-1. When the search_products tool returns results, respond with ONE short sentence ONLY, like: "I found X products! Showing them on the page now." — NEVER list, format, summarize, or describe the products in your message.
-2. When get_product_by_id returns a result, give a brief 2-3 sentence summary only.
-3. Keep all other answers under 3 sentences.`,
+CATEGORY MAPPING — this is critical, always follow this:
+- "laptops", "laptop", "notebooks", "computers", "pcs", "pc" → use category: "pcs"
+- "phones", "phone", "mobile", "smartphone" → use category: "phones"
+- "chargers", "charger", "cables", "accessories" → use category: "chargers"
+- NEVER put category words (laptop, phone, charger) in the "query" field. The "query" field is ONLY for searching product names like "iPhone 15" or "MacBook Pro".
+- When a user asks to "see all" or "show everything" in a category, set limit to 50.
+
+CRITICAL RULES:
+1. When the search_products tool returns results, respond with ONE short sentence ONLY, like: "I found X products! Showing them on the page now."
+2. NEVER list, format, summarize, or describe individual products in your message.
+3. When get_product_by_id returns a result, give a brief 2-3 sentence summary only.
+4. Keep all other answers under 3 sentences.`,
       messages,
       tools: Object.keys(aiTools).length > 0 ? aiTools : undefined,
       maxSteps: 3,
