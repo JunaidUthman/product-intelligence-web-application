@@ -1,0 +1,256 @@
+.page {
+  min-height: 100vh;
+  padding-bottom: var(--space-20);
+}
+
+/* Hero */
+.hero {
+  background: var(--bg-secondary);
+  padding-top: calc(var(--header-height) + var(--space-16));
+  padding-bottom: var(--space-12);
+  position: relative;
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 700px;
+}
+
+.heroSubtitle {
+  font-size: 1.125rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.heroDivider {
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-500), var(--accent-purple), transparent);
+  margin-top: var(--space-10);
+}
+
+/* Mission */
+.missionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+.missionCard {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  transition: all var(--transition-base);
+}
+
+.missionCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.missionIcon {
+  width: 52px;
+  height: 52px;
+  background: var(--primary-50);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-600);
+}
+
+.missionIconGreen {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.missionIconPurple {
+  background: rgba(139,92,246,0.1);
+  color: var(--accent-purple);
+}
+
+.missionCardTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.missionCardText {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* How Section */
+.howSection {
+  background: var(--bg-secondary);
+  margin: 0 calc(-1 * var(--space-6));
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.howGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-10);
+}
+
+.howCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.howStep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary-500), var(--accent-purple));
+  color: white;
+  font-size: 1rem;
+  font-weight: 800;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.howTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.howDesc {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+/* Trust Section */
+.trustSection {
+  padding: var(--space-16) 0;
+}
+
+.trustGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+}
+
+.trustContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.trustText {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+}
+
+.trustList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.trustPoint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.trustPoint svg {
+  color: var(--success);
+  flex-shrink: 0;
+}
+
+.trustVisual {
+  display: flex;
+  justify-content: center;
+}
+
+.trustCard {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.trustStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+}
+
+.trustStatValue {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--primary-600);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.trustStatLabel {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.trustDivider {
+  height: 1px;
+  background: var(--border-light);
+}
+
+/* CTA Section */
+.ctaSection {
+  padding-top: 0;
+  padding-bottom: var(--space-8);
+}
+
+.ctaCard {
+  background: linear-gradient(135deg, var(--primary-50), rgba(139,92,246,0.05));
+  border: 1px solid var(--primary-100);
+  border-radius: var(--radius-xl);
+  padding: var(--space-12);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.ctaCard h2 { color: var(--text-primary); }
+.ctaCard p { color: var(--text-muted); font-size: 1.0625rem; }
+
+@media (max-width: 1024px) {
+  .howGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .missionGrid { grid-template-columns: 1fr; }
+  .trustGrid { grid-template-columns: 1fr; }
+  .howGrid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,52 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stars {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.starsEmpty {
+  display: flex;
+  color: var(--gray-200);
+}
+
+.starsFilled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  display: flex;
+  color: #f59e0b;
+  white-space: nowrap;
+}
+
+.star {
+  flex-shrink: 0;
+}
+
+.value {
+  font-weight: 600;
+  color: var(--text-secondary);
+  line-height: 1;
+}
+
+.noRating {
+  font-size: 0.8125rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* Sizes */
+.sm .star { width: 13px; height: 13px; }
+.sm .value { font-size: 0.75rem; }
+
+.md .star { width: 16px; height: 16px; }
+.md .value { font-size: 0.875rem; }
+
+.lg .star { width: 20px; height: 20px; }
+.lg .value { font-size: 1rem; }

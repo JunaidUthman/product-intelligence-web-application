@@ -1,0 +1,91 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ring {
+  transform: rotate(-90deg);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-width: 3;
+}
+
+.ringBg {
+  stroke: var(--gray-100);
+}
+
+.value {
+  position: relative;
+  font-weight: 700;
+  line-height: 1;
+  z-index: 1;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* Sizes */
+.sm { }
+.sm .badge { width: 44px; height: 44px; }
+.sm .ring { stroke-width: 3.5; }
+.sm .value { font-size: 0.6875rem; }
+
+.md .badge { width: 54px; height: 54px; }
+.md .ring { stroke-width: 3; }
+.md .value { font-size: 0.8125rem; }
+
+.lg .badge { width: 68px; height: 68px; }
+.lg .ring { stroke-width: 2.5; }
+.lg .value { font-size: 1rem; }
+
+/* Levels */
+.excellent .ringFill { stroke: #10b981; }
+.excellent .value { color: #065f46; }
+.excellent .label { color: #10b981; }
+
+.good .ringFill { stroke: #6366f1; }
+.good .value { color: var(--primary-700); }
+.good .label { color: var(--primary-600); }
+
+.fair .ringFill { stroke: #f59e0b; }
+.fair .value { color: #92400e; }
+.fair .label { color: #f59e0b; }
+
+.poor .ringFill { stroke: #ef4444; }
+.poor .value { color: #991b1b; }
+.poor .label { color: #ef4444; }
+
+.none .value { color: var(--text-light); font-size: 0.75rem; }
+
+/* Background ring fill */
+.excellent { background: rgba(16,185,129,0.08); }
+.good { background: rgba(99,102,241,0.08); }
+.fair { background: rgba(245,158,11,0.08); }
+.poor { background: rgba(239,68,68,0.08); }
+.none { background: var(--gray-50); width: 44px; height: 44px; border-radius: 50%; }
+
+[data-theme="dark"] .ringBg { stroke: rgba(255,255,255,0.1); }
+[data-theme="dark"] .excellent { background: rgba(16,185,129,0.15); }
+[data-theme="dark"] .excellent .value { color: #6ee7b7; }
+[data-theme="dark"] .good { background: rgba(99,102,241,0.15); }
+[data-theme="dark"] .good .value { color: var(--primary-300); }
+[data-theme="dark"] .fair { background: rgba(245,158,11,0.15); }
+[data-theme="dark"] .fair .value { color: #fcd34d; }
+[data-theme="dark"] .poor { background: rgba(239,68,68,0.15); }
+[data-theme="dark"] .poor .value { color: #fca5a5; }
