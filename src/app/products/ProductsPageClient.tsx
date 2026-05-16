@@ -61,6 +61,8 @@ export default function ProductsPageClient() {
   const searchParam = searchParams.get('q') || '';
   const categoryParam = (searchParams.get('category') || 'all') as Category;
   const sortParam = (searchParams.get('sort') || 'score') as SortOption;
+  // ids from chatbot redirect — comma-separated product IDs to show exclusively
+  const idsParam = searchParams.get('ids') || '';
 
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -104,8 +106,12 @@ export default function ProductsPageClient() {
     router.push(`/products?${params.toString()}`, { scroll: false });
   }, [searchParams, router]);
 
+  const pinned = idsParam ? new Set(idsParam.split(',').map(Number)) : null;
+
   const filtered = sortProducts(
     allProducts.filter((p) => {
+      // If chatbot provided specific IDs, show only those
+      if (pinned) return pinned.has(p.id);
       const matchesCat = matchesCategory(p, activeCategory);
       const matchesSearch = !search ||
         (p.nom || '').toLowerCase().includes(search.toLowerCase()) ||
@@ -199,6 +205,33 @@ export default function ProductsPageClient() {
             </select>
           </div>
         </div>
+
+        {!loading && pinned && (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(37,99,235,0.08), rgba(139,92,246,0.08))',
+            border: '1px solid rgba(37,99,235,0.2)',
+            borderRadius: 'var(--radius-lg)',
+            padding: 'var(--space-3) var(--space-4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 'var(--space-3)',
+            marginBottom: 'var(--space-4)',
+          }}>
+            <span style={{ color: 'var(--primary-600)', fontSize: '0.9375rem' }}>
+              ✨ <strong>AI Results</strong> — Showing {filtered.length} product{filtered.length !== 1 ? 's' : ''} found by your assistant
+            </span>
+            <button
+              className={styles.clearFilters}
+              onClick={() => router.push('/products')}
+            >
+              Show all products
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {!loading && (
           <div className={styles.resultsInfo}>

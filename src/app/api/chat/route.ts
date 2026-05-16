@@ -81,10 +81,13 @@ export async function POST(req: Request) {
   try {
     const result = streamText({
       model: deepseek('deepseek-chat'),
-      system: `You are an intelligent shopping assistant for "Browse Electronics".
-You help users find products, compare prices, and explore deals.
+      system: `You are a concise shopping assistant for "Browse Electronics".
 You have access to product database tools. When the user asks to find or show products, use the search_products tool.
-After calling a tool, inform the user you found results and that they are being shown on the products page.`,
+
+CRITICAL RULES — follow these exactly:
+1. When the search_products tool returns results, respond with ONE short sentence ONLY, like: "I found X products! Showing them on the page now." — NEVER list, format, summarize, or describe the products in your message.
+2. When get_product_by_id returns a result, give a brief 2-3 sentence summary only.
+3. Keep all other answers under 3 sentences.`,
       messages,
       tools: Object.keys(aiTools).length > 0 ? aiTools : undefined,
       maxSteps: 3,
