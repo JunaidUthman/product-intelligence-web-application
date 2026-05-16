@@ -58,21 +58,26 @@ export default function ProductsPageClient() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const searchParam = searchParams.get('q') || '';
+  const categoryParam = (searchParams.get('category') || 'all') as Category;
+  const sortParam = (searchParams.get('sort') || 'score') as SortOption;
+
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [search, setSearch] = useState('');
-  const [sort, setSort] = useState<SortOption>('score');
+  const [search, setSearch] = useState(searchParam);
+  const [sort, setSort] = useState<SortOption>(sortParam);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const categoryParam = (searchParams.get('category') || 'all') as Category;
   const [activeCategory, setActiveCategory] = useState<Category>(categoryParam);
 
   useEffect(() => {
     setActiveCategory(categoryParam);
-    setCurrentPage(1); // Reset to first page when category changes
-  }, [categoryParam]);
+    setSearch(searchParam);
+    setSort(sortParam);
+    setCurrentPage(1); 
+  }, [categoryParam, searchParam, sortParam]);
 
   useEffect(() => {
     const fetchProducts = async () => {
