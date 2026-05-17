@@ -50,7 +50,7 @@ The frontend is designed to be cinematic, professional, and lightning-fast.
 
 #### 3. Product Details
 *Deep dive into a specific product to see its price, boutique origin, and rating.*
-![Product Details](./public/images/produc_details.png)
+![Product Details](./public/images/produc_details2.png)
 
 #### 4. AI Shopping Assistant in Action
 *Chat with the assistant, which uses the MCP Server to find exactly what you're looking for.*
