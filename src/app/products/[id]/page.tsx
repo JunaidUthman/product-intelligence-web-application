@@ -11,7 +11,7 @@ import styles from './page.module.css';
 function getStockBadge(stock: string | null) {
   if (!stock) return { label: 'Unknown', className: 'badge-gray' };
   const s = stock.toLowerCase();
-  if (s.includes('out') || s.includes('0 ')) return { label: 'Out of Stock', className: 'badge-danger' };
+  if (s.includes('out') || s.includes('0 ')) return { label: 'Limited Stock', className: 'badge-danger' };
   if (s.includes('limited') || s.includes('1 ') || s.includes('2 ') || s.includes('3 ')) return { label: 'Limited Stock', className: 'badge-warning' };
   return { label: 'In Stock', className: 'badge-success' };
 }

@@ -16,7 +16,7 @@ interface ProductCardProps {
 function getStockStatus(stock: string | null): { label: string; variant: 'success' | 'warning' | 'danger' | 'gray' } {
   if (!stock) return { label: 'Unknown', variant: 'gray' };
   const s = stock.toLowerCase();
-  if (s.includes('out') || s.includes('0')) return { label: 'Out of Stock', variant: 'danger' };
+  if (s.includes('out') || s.includes('0')) return { label: 'Limited Stock', variant: 'danger' };
   if (s.includes('limited') || s.includes('1 ') || s.includes('2 ') || s.includes('3 ')) return { label: 'Limited Stock', variant: 'warning' };
   return { label: 'In Stock', variant: 'success' };
 }

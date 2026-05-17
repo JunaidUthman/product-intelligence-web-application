@@ -2,15 +2,16 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { Zap, Smartphone, Laptop, BatteryCharging } from 'lucide-react';
 import { Product, Category, SortOption } from '@/types/product';
 import ProductCard from '@/components/ProductCard';
 import styles from './page.module.css';
 
-const CATEGORIES: { id: Category; label: string; icon: string }[] = [
-  { id: 'all', label: 'All Products', icon: '⚡' },
-  { id: 'phones', label: 'Phones', icon: '📱' },
-  { id: 'pcs', label: 'PCs & Laptops', icon: '💻' },
-  { id: 'chargers', label: 'Chargers', icon: '🔋' },
+const CATEGORIES: { id: Category; label: string; icon: React.ReactNode }[] = [
+  { id: 'all', label: 'All Products', icon: <Zap size={18} /> },
+  { id: 'phones', label: 'Phones', icon: <Smartphone size={18} /> },
+  { id: 'pcs', label: 'PCs & Laptops', icon: <Laptop size={18} /> },
+  { id: 'chargers', label: 'Chargers', icon: <BatteryCharging size={18} /> },
 ];
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
