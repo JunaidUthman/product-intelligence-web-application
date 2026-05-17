@@ -1,67 +1,75 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Target, SearchCode, BarChart3, Database, Layers, BrainCircuit, Activity, CheckCircle2 } from 'lucide-react';
 import styles from './page.module.css';
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 },
+  }),
+};
 
 export default function AboutPage() {
   return (
     <div className={styles.page}>
       {/* Hero */}
       <section className={styles.hero}>
-        <div className={`container ${styles.heroInner}`}>
+        <motion.div 
+          className={`container ${styles.heroInner}`}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+        >
           <p className="section-label">About Us</p>
           <h1 className="heading-1">
             Built for Smarter<br />
-            <span className="text-gradient">Electronics Shopping</span>
+            Electronics Shopping
           </h1>
           <p className={styles.heroSubtitle}>
             Product Intelligence is a data-driven platform that aggregates, scores, and presents electronics
             product listings so you can compare deals at a glance — not after hours of browsing.
           </p>
-        </div>
-        <div className={styles.heroDivider} />
+        </motion.div>
       </section>
 
       <div className="container">
         {/* Mission */}
         <section className={`section ${styles.missionSection}`}>
           <div className={styles.missionGrid}>
-            <div className={styles.missionCard}>
-              <div className={styles.missionIcon}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
+            <motion.div custom={0} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }} variants={fadeUp} className={styles.missionCard}>
+              <div className={styles.missionIconBox}>
+                <Target size={24} />
               </div>
               <h3 className={styles.missionCardTitle}>Our Mission</h3>
               <p className={styles.missionCardText}>
-                To make electronics shopping transparent, efficient, and fair — by surfacing the best deals through
-                intelligent data collection and AI-powered scoring.
+                To make electronics shopping transparent, efficient, and fair — by surfacing the best deals through intelligent data collection and AI-powered scoring.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={styles.missionCard}>
-              <div className={`${styles.missionIcon} ${styles.missionIconGreen}`}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+            <motion.div custom={1} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }} variants={fadeUp} className={styles.missionCard}>
+              <div className={styles.missionIconBox}>
+                <SearchCode size={24} />
               </div>
               <h3 className={styles.missionCardTitle}>What We Do</h3>
               <p className={styles.missionCardText}>
-                We continuously scrape trusted online boutiques, normalize prices and reviews, calculate a
-                composite product score, and present everything in one clean interface.
+                We continuously scrape trusted online boutiques, normalize prices and reviews, calculate a composite product score, and present everything in one clean interface.
               </p>
-            </div>
+            </motion.div>
 
-            <div className={styles.missionCard}>
-              <div className={`${styles.missionIcon} ${styles.missionIconPurple}`}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-                </svg>
+            <motion.div custom={2} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }} variants={fadeUp} className={styles.missionCard}>
+              <div className={styles.missionIconBox}>
+                <BarChart3 size={24} />
               </div>
               <h3 className={styles.missionCardTitle}>Why It Matters</h3>
               <p className={styles.missionCardText}>
-                Manually comparing prices across multiple shops is slow and error-prone. We automate this
-                process so you can focus on what matters — making the best buying decision.
+                Manually comparing prices across multiple shops is slow and error-prone. We automate this process so you can focus on what matters — making the best buying decision.
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -76,16 +84,18 @@ export default function AboutPage() {
 
           <div className={styles.howGrid}>
             {[
-              { step: '1', title: 'Data Collection', desc: 'Our scraper visits trusted boutiques regularly and captures product name, price, stock, ratings, and image.' },
-              { step: '2', title: 'Normalization', desc: 'Prices are converted to USD. Text fields are cleaned and standardized across all shops.' },
-              { step: '3', title: 'Scoring Algorithm', desc: 'A composite score is calculated from price competitiveness, availability, rating quality, and review count.' },
-              { step: '4', title: 'Ranked Results', desc: 'Products are ranked from best to worst score, letting you instantly see the most valuable options.' },
-            ].map((item) => (
-              <div key={item.step} className={styles.howCard}>
-                <span className={styles.howStep}>{item.step}</span>
+              { icon: Database, title: 'Data Collection', desc: 'Our scraper visits trusted boutiques regularly and captures product name, price, stock, ratings, and image.' },
+              { icon: Layers, title: 'Normalization', desc: 'Prices are converted to USD. Text fields are cleaned and standardized across all shops.' },
+              { icon: BrainCircuit, title: 'Scoring Algorithm', desc: 'A composite score is calculated from price competitiveness, availability, rating quality, and review count.' },
+              { icon: Activity, title: 'Ranked Results', desc: 'Products are ranked from best to worst score, letting you instantly see the most valuable options.' },
+            ].map((item, i) => (
+              <motion.div key={item.title} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true, margin: '-40px' }} variants={fadeUp} className={styles.howCard}>
+                <div className={styles.howIconBox}>
+                  <item.icon size={20} strokeWidth={2} />
+                </div>
                 <h4 className={styles.howTitle}>{item.title}</h4>
                 <p className={styles.howDesc}>{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -93,7 +103,7 @@ export default function AboutPage() {
         {/* Trust Section */}
         <section className={styles.trustSection}>
           <div className={styles.trustGrid}>
-            <div className={styles.trustContent}>
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className={styles.trustContent}>
               <p className="section-label">Why Trust Us</p>
               <h2 className="heading-2">Data You Can Rely On</h2>
               <p className={styles.trustText}>
@@ -109,15 +119,13 @@ export default function AboutPage() {
                   'Direct links to original product pages',
                 ].map((point) => (
                   <li key={point} className={styles.trustPoint}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
+                    <CheckCircle2 size={18} className={styles.checkIcon} />
                     {point}
                   </li>
                 ))}
               </ul>
-            </div>
-            <div className={styles.trustVisual}>
+            </motion.div>
+            <motion.div custom={1} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className={styles.trustVisual}>
               <div className={styles.trustCard}>
                 <div className={styles.trustStat}>
                   <span className={styles.trustStatValue}>650+</span>
@@ -134,18 +142,18 @@ export default function AboutPage() {
                   <span className={styles.trustStatLabel}>Trusted Boutiques</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         {/* CTA */}
-        <section className={`section ${styles.ctaSection}`}>
+        <motion.section initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className={`section ${styles.ctaSection}`}>
           <div className={styles.ctaCard}>
             <h2 className="heading-3">Ready to find your next deal?</h2>
             <p>Browse our full catalog of electronics with real-time pricing and availability.</p>
             <Link href="/products" className="btn btn-primary btn-lg">Browse Products</Link>
           </div>
-        </section>
+        </motion.section>
       </div>
     </div>
   );

@@ -25,8 +25,8 @@
 }
 
 .heroDivider {
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary-500), var(--accent-purple), transparent);
+  height: 1px;
+  background: var(--border-light);
   margin-top: var(--space-10);
 }
 
@@ -53,25 +53,16 @@
   box-shadow: var(--shadow-lg);
 }
 
-.missionIcon {
-  width: 52px;
-  height: 52px;
-  background: var(--primary-50);
+.missionIconBox {
+  width: 48px;
+  height: 48px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-600);
-}
-
-.missionIconGreen {
-  background: var(--success-light);
-  color: var(--success);
-}
-
-.missionIconPurple {
-  background: rgba(139,92,246,0.1);
-  color: var(--accent-purple);
 }
 
 .missionCardTitle {
@@ -108,16 +99,15 @@
   gap: var(--space-3);
 }
 
-.howStep {
+.howIconBox {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, var(--primary-500), var(--accent-purple));
-  color: white;
-  font-size: 1rem;
-  font-weight: 800;
+  width: 44px;
+  height: 44px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-light);
+  color: var(--primary-600);
   border-radius: var(--radius-md);
   flex-shrink: 0;
 }
@@ -174,8 +164,8 @@
   font-weight: 500;
 }
 
-.trustPoint svg {
-  color: var(--success);
+.checkIcon {
+  color: var(--primary-600);
   flex-shrink: 0;
 }
 
@@ -231,8 +221,8 @@
 }
 
 .ctaCard {
-  background: linear-gradient(135deg, var(--primary-50), rgba(139,92,246,0.05));
-  border: 1px solid var(--primary-100);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-medium);
   border-radius: var(--radius-xl);
   padding: var(--space-12);
   text-align: center;
@@ -240,6 +230,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-4);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.05);
 }
 
 .ctaCard h2 { color: var(--text-primary); }

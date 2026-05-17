@@ -18,8 +18,8 @@
 }
 
 .heroDivider {
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary-500), var(--accent-purple), transparent);
+  height: 1px;
+  background: var(--border-light);
   margin-top: var(--space-10);
 }
 
@@ -92,15 +92,16 @@
   gap: var(--space-4);
 }
 
-.successIcon {
+.successIconBox {
   width: 64px;
   height: 64px;
-  background: var(--success-light);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--success);
+  color: #10b981;
 }
 
 .successState h3 {
@@ -154,9 +155,10 @@
 }
 
 .contactIcon {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-50);
+  width: 44px;
+  height: 44px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   display: flex;
   align-items: center;
@@ -200,9 +202,9 @@
 }
 
 .quickLink:hover {
-  border-color: var(--primary-300);
-  color: var(--primary-600);
-  background: var(--primary-50);
+  border-color: var(--border-medium);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
 }
 
 /* Responsive */
