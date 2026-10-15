@@ -64,12 +64,14 @@ export async function POST(req: Request) {
         console.log(`[Chat] Executing tool: ${t.name}`, args);
         try {
           const result = await client.callTool({ name: t.name, arguments: args });
+          const content = result.content as Array<{ type: string; text?: string }> | undefined;
           if (result.isError) {
-            const errMsg = result.content[0]?.type === 'text' ? result.content[0].text : 'Tool error';
+            const first = content?.[0];
+            const errMsg = first?.type === 'text' && first.text ? first.text : 'Tool error';
             throw new Error(errMsg);
           }
-          const textContent = result.content.find((c: any) => c.type === 'text');
-          return textContent ? textContent.text : JSON.stringify(result.content);
+          const textContent = content?.find((c) => c.type === 'text');
+          return textContent?.text ?? JSON.stringify(result.content);
         } catch (e: any) {
           console.error(`[Chat] Tool execution error (${t.name}):`, e.message);
           throw e;

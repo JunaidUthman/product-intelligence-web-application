@@ -5,8 +5,10 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  let idParam: string | undefined;
   try {
-    const { id: idParam } = await params;
+    const resolvedParams = await params;
+    idParam = resolvedParams.id;
     const id = parseInt(idParam);
     
     if (isNaN(id)) {
@@ -27,7 +29,7 @@ export async function GET(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error(`Failed to fetch product details for ID ${params.id}:`, error);
+    console.error(`Failed to fetch product details for ID ${idParam}:`, error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

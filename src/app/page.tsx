@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import {
   Smartphone,
   Laptop,
@@ -42,19 +42,19 @@ const slides = [
 ];
 
 // ─── Animated slide text ──────────────────────────────────────────────────────
-const textVariants = {
+const textVariants: Variants = {
   enter: { opacity: 0, y: 28 },
-  center: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] } },
+  center: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
   exit: { opacity: 0, y: -16, transition: { duration: 0.4 } },
 };
 
 // ─── Fade-up on scroll ────────────────────────────────────────────────────────
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 36 },
-  visible: (i = 0) => ({
+  visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.09 },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as [number, number, number, number], delay: i * 0.09 },
   }),
 };
 
@@ -327,7 +327,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] }}
           >
             <div className={styles.ctaInner}>
               <h2 className={styles.ctaTitle}>Ready to Find Your Best Deal?</h2>
