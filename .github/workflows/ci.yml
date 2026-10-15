@@ -14,6 +14,7 @@ on:
       - 'next.config.ts'
       - 'tsconfig.json'
       - 'Dockerfile'
+      - '.github/workflows/**'
 
 jobs:
   test-and-build:
@@ -67,22 +68,19 @@ jobs:
           token: ${{ secrets.INFRA_PAT }}
           path: infra-repo
 
-      - name: Set up Kustomize
-        uses: imranismail/setup-kustomize@v3
-
-      - name: Update image tag in Kubernetes Infrastructure repository
+      - name: Update image tag in explorer manifest
         env:
-          IMAGE_TAG: v-${{ steps.vars.outputs.sha_short }}
+          NEW_IMAGE: junaiduthman/product-explorer:v-${{ steps.vars.outputs.sha_short }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          cd infra-repo/base
+          cd infra-repo
 
-          # Use kustomize to set the new image tag
-          kustomize edit set image junaiduthman/product-explorer=junaiduthman/product-explorer:${IMAGE_TAG}
+          # Update image using yq directly on the Deployment document (ignoring Service)
+          yq -i '(select(.kind == "Deployment").spec.template.spec.containers[0].image) = env(NEW_IMAGE)' base/explorer/explorer.yaml
 
-          # Commit and push changes
-          git add kustomization.yaml
-          git diff --staged --quiet || (git commit -m "chore(gitops): update product-explorer image to ${IMAGE_TAG}" && git push)
+          # Commit and push ONLY explorer.yaml
+          git add base/explorer/explorer.yaml
+          git diff --staged --quiet || (git commit -m "chore(gitops): update explorer image to ${NEW_IMAGE}" && git push)
 
